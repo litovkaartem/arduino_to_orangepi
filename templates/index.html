@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orange Pi Sensors</title>
+    <title>Hit Detector</title>
     <style>
-        /* Базовое оформление страницы */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -13,74 +12,71 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #ececec; /* Светло-серый фон */
-            color: #333; /* Основной серый цвет текста */
+            background-color: #ececec;
+            color: #333;
         }
 
         h1 {
             margin: 30px 0;
             font-size: 40px;
-            color: #444; /* Чуть темнее для контраста */
+            color: #444;
             text-transform: uppercase;
-            font-weight: 300; /* Изящный тонкий шрифт */
+            font-weight: 300; 
         }
 
         #sensors {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Адаптивная сетка */
-            gap: 20px; /* Пространство между объектами */
-            max-width: 1200px; /* Максимальная ширина */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
             width: 100%;
             padding: 0 15px;
         }
 
-        /* Оформление сенсоров */
         .sensor {
-            border: 1px solid #bbb; /* Светлая тонкая рамка */
+            border: 1px solid #bbb;
             padding: 25px;
-            border-radius: 5px; /* Легкие скругления */
-            background-color: #fff; /* Белый фон */
+            border-radius: 5px;
+            background-color: #fff;
             font-size: 16px;
-            font-weight: normal; /* Простая типографика */
-            color: #666; /* Нежный серый текст */
+            font-weight: normal;
+            color: #666; 
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Легкая тень */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .sensor:hover {
-            transform: translateY(-5px); /* Легкое поднятие при наведении */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Усиление тени */
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
         }
 
-        /* Оформление кнопки */
         .run-script-btn {
             margin-top: 40px;
             padding: 12px 25px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #333; /* Темно-серый цвет кнопки для лофта */
-            color: #fff; /* Белый текст */
+            background-color: #333;
+            color: #fff;
             border: none;
-            border-radius: 5px; /* Слегка скругленные края */
+            border-radius: 5px;
             text-transform: uppercase;
-            letter-spacing: 1.5px; /* Пробел между буквами */
+            letter-spacing: 1.5px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .run-script-btn:hover {
-            background-color: #555; /* Светлее при наведении */
-            transform: translateY(-3px); /* Легкое поднятие */
+            background-color: #555;
+            transform: translateY(-3px);
         }
 
         .run-script-btn:active {
-            transform: scale(0.98); /* Легкое уменьшение при нажатии */
+            transform: scale(0.98);
         }
 
-        /* Адаптивность */
         @media (max-width: 768px) {
             #sensors {
-                grid-template-columns: 1fr; /* Один столбец на маленьких экранах */
+                grid-template-columns: 1fr;
             }
 
             .sensor {
@@ -123,9 +119,9 @@
             fetch('/reset_to_zero')  // Отправляем запрос на сервер
                 .then(response => {
                     if (response.ok) {
-                        alert('Скрипт успешно выполнен!');
+                        alert('Bravo 6, confirmative!');
                     } else {
-                        alert('Ошибка выполнения скрипта');
+                        alert('Ошибка выполнения');
                     }
                 })
                 .catch(error => {
@@ -133,8 +129,8 @@
                 });
         }
 
-        // Обновляем значения каждые 3 секунды
-        setInterval(updateValues, 3000);
+        // Обновляем значения каждую 1 секунду
+        setInterval(updateValues, 1000);
 
         // И запускаем обновление сразу при загрузке страницы
         updateValues();
