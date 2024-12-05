@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Pi Sensors</title>
+    <style>
+        .sensor {
+            border: 1px solid black;
+            margin: 10px;
+            padding: 20px;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Попадания по мишеням</h1>
+    <div id="sensors">
+        <div id="sen1" class="sensor">sen1: 0</div>
+        <div id="sen2" class="sensor">sen2: 0</div>
+        <div id="sen3" class="sensor">sen3: 0</div>
+        <div id="sen4" class="sensor">sen4: 0</div>
+        <div id="sen5" class="sensor">sen5: 0</div>
+    </div>
+
+    <script>
+        function updateValues() {
+            fetch('/random_values')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('sen1').innerText = `Мишень1: ${data.sen1}`;
+                    document.getElementById('sen2').innerText = `Мишень2: ${data.sen2}`;
+                    document.getElementById('sen3').innerText = `Мишень3: ${data.sen3}`;
+                    document.getElementById('sen4').innerText = `Мишень4: ${data.sen4}`;
+                    document.getElementById('sen5').innerText = `Мишень5: ${data.sen5}`;
+                });
+        }
+
+        // Обновляем значения каждые 3 секунды
+        setInterval(updateValues, 3000);
+
+        // И запускаем обновление сразу при загрузке страницы
+        updateValues();
+    </script>
+</body>
+</html>
+
