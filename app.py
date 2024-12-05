@@ -8,8 +8,8 @@ def home():
     return render_template('index.html')
 
 # Генерация случайных значений
-@app.route('/random_values')
-def random_values():
+@app.route('/get_values')
+def get_values():
     PORT = "/dev/ttyACM0"
     BAUD_RATE = 9600
     sen1 = sen2 = sen3 = sen4 = sen5 = 0
@@ -35,20 +35,20 @@ def random_values():
             "sen5": sen5,
         }
         return jsonify(values)
-@app.route('/run-script', methods=['POST','GET'])
-def run_script():
-    # Кнопка обновить
+#Передаем Arduino команду на обнуление значений
+@app.route('/reset_to_zero', methods=['POST','GET'])
+def reset_to_zero():
     PORT = "/dev/ttyACM0"
     BAUD_RATE = 9600
     try:
         ser = serial.Serial(PORT, BAUD_RATE, timeout=1)
-        command = request.args.get('command', 'c')  # Исправлено: использование request.args.get
+        command = request.args.get('command', 'c')
         ser.write(command.encode())  # Отправляем команду
         print(f"Отправлена команда: {command}")
-        return 'Скрипт успешно выполнен!', 200  # Возврат строки с HTTP-кодом 200
+        return 'Браво-6, принял!', 200  # Возврат строки с HTTP-кодом 200
     except Exception as e:
         print(f"Ошибка отправки команды: {e}")
-        return f"Произошла ошибка: {str(e)}", 500
+        return f"Произошла ошибка: {str(e)}", 500 #Bravo 6 going dark
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
 

@@ -7,74 +7,90 @@
     <style>
         /* Базовое оформление страницы */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f4f4f9;
+            background-color: #ececec; /* Светло-серый фон */
+            color: #333; /* Основной серый цвет текста */
         }
 
         h1 {
-            margin: 20px 0;
-            font-size: 36px;
-            color: #333;
+            margin: 30px 0;
+            font-size: 40px;
+            color: #444; /* Чуть темнее для контраста */
+            text-transform: uppercase;
+            font-weight: 300; /* Изящный тонкий шрифт */
         }
 
         #sensors {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Адаптивная сетка */
+            gap: 20px; /* Пространство между объектами */
+            max-width: 1200px; /* Максимальная ширина */
+            width: 100%;
+            padding: 0 15px;
         }
 
         /* Оформление сенсоров */
         .sensor {
-            border: 2px solid #4caf50;
-            margin: 10px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #e8f5e9;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2e7d32;
+            border: 1px solid #bbb; /* Светлая тонкая рамка */
+            padding: 25px;
+            border-radius: 5px; /* Легкие скругления */
+            background-color: #fff; /* Белый фон */
+            font-size: 16px;
+            font-weight: normal; /* Простая типографика */
+            color: #666; /* Нежный серый текст */
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Легкая тень */
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .sensor:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px); /* Легкое поднятие при наведении */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Усиление тени */
         }
 
         /* Оформление кнопки */
         .run-script-btn {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 18px;
+            margin-top: 40px;
+            padding: 12px 25px;
+            font-size: 16px;
             cursor: pointer;
-            background-color: #4caf50;
-            color: white;
+            background-color: #333; /* Темно-серый цвет кнопки для лофта */
+            color: #fff; /* Белый текст */
             border: none;
-            border-radius: 5px;
+            border-radius: 5px; /* Слегка скругленные края */
+            text-transform: uppercase;
+            letter-spacing: 1.5px; /* Пробел между буквами */
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .run-script-btn:hover {
-            background-color: #388e3c;
-            transform: scale(1.05);
+            background-color: #555; /* Светлее при наведении */
+            transform: translateY(-3px); /* Легкое поднятие */
         }
 
         .run-script-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.98); /* Легкое уменьшение при нажатии */
         }
 
         /* Адаптивность */
         @media (max-width: 768px) {
+            #sensors {
+                grid-template-columns: 1fr; /* Один столбец на маленьких экранах */
+            }
+
             .sensor {
-                width: 80%;
-                margin: 10px 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .run-script-btn {
+                font-size: 14px;
+                padding: 10px 20px;
             }
         }
     </style>
@@ -89,10 +105,10 @@
         <div id="sen5" class="sensor">Мишень 5: 0</div>
     </div>
     <!-- Кнопка для запуска Python-скрипта -->
-    <button class="run-script-btn" onclick="runPythonScript()">Обнулить</button>
+    <button class="run-script-btn" onclick="resetToZero()">Обнулить</button>
     <script>
         function updateValues() {
-            fetch('/random_values')
+            fetch('/get_values')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('sen1').innerText = `Мишень 1: ${data.sen1}`;
@@ -103,8 +119,8 @@
                 });
         }
 
-        function runPythonScript() {
-            fetch('/run-script')  // Отправляем запрос на сервер
+        function resetToZero() {
+            fetch('/reset_to_zero')  // Отправляем запрос на сервер
                 .then(response => {
                     if (response.ok) {
                         alert('Скрипт успешно выполнен!');
