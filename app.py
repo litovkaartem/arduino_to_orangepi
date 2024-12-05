@@ -20,6 +20,10 @@ def random_values():
         "sen5": random.randint(1, 100),
     }
     return jsonify(values)
+#@app.route('/run-script')
+#def run_script():
+    # Кнопка обновить
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

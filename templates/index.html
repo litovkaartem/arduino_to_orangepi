@@ -5,36 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orange Pi Sensors</title>
     <style>
+        /* Базовое оформление страницы */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            margin: 20px 0;
+            font-size: 36px;
+            color: #333;
+        }
+
+        #sensors {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Оформление сенсоров */
         .sensor {
-            border: 1px solid black;
+            border: 2px solid #4caf50;
             margin: 10px;
             padding: 20px;
-            display: inline-block;
-            width: 100px;
+            border-radius: 10px;
+            background-color: #e8f5e9;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .sensor:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Оформление кнопки */
+        .run-script-btn {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .run-script-btn:hover {
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+
+        .run-script-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .sensor {
+                width: 80%;
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Попадания по мишеням</h1>
     <div id="sensors">
-        <div id="sen1" class="sensor">sen1: 0</div>
-        <div id="sen2" class="sensor">sen2: 0</div>
-        <div id="sen3" class="sensor">sen3: 0</div>
-        <div id="sen4" class="sensor">sen4: 0</div>
-        <div id="sen5" class="sensor">sen5: 0</div>
+        <div id="sen1" class="sensor">Мишень 1: 0</div>
+        <div id="sen2" class="sensor">Мишень 2: 0</div>
+        <div id="sen3" class="sensor">Мишень 3: 0</div>
+        <div id="sen4" class="sensor">Мишень 4: 0</div>
+        <div id="sen5" class="sensor">Мишень 5: 0</div>
     </div>
-
+    <!-- Кнопка для запуска Python-скрипта -->
+    <button class="run-script-btn" onclick="runPythonScript()">Обнулить</button>
     <script>
         function updateValues() {
             fetch('/random_values')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('sen1').innerText = `Мишень1: ${data.sen1}`;
-                    document.getElementById('sen2').innerText = `Мишень2: ${data.sen2}`;
-                    document.getElementById('sen3').innerText = `Мишень3: ${data.sen3}`;
-                    document.getElementById('sen4').innerText = `Мишень4: ${data.sen4}`;
-                    document.getElementById('sen5').innerText = `Мишень5: ${data.sen5}`;
+                    document.getElementById('sen1').innerText = `Мишень 1: ${data.sen1}`;
+                    document.getElementById('sen2').innerText = `Мишень 2: ${data.sen2}`;
+                    document.getElementById('sen3').innerText = `Мишень 3: ${data.sen3}`;
+                    document.getElementById('sen4').innerText = `Мишень 4: ${data.sen4}`;
+                    document.getElementById('sen5').innerText = `Мишень 5: ${data.sen5}`;
+                });
+        }
+
+        function runPythonScript() {
+            fetch('/run-script')  // Отправляем запрос на сервер
+                .then(response => {
+                    if (response.ok) {
+                        alert('Скрипт успешно выполнен!');
+                    } else {
+                        alert('Ошибка выполнения скрипта');
+                    }
+                })
+                .catch(error => {
+                    alert('Ошибка при подключении!');
                 });
         }
 
